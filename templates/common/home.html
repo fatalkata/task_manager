@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1>Welcome to Task Manager</h1>
+    {% if user.is_authenticated %}
+        <p class="lead">Hello, {{ user.username }}! Go to your <a href="{% url 'dashboard' %}">dashboard</a>.</p>
+    {% else %}
+        <p class="lead">Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a> to continue.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
