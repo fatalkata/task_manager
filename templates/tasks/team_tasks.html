@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Team Tasks{% endblock %}
+
+{% block content %}
+<h2>Your Teams</h2>
+
+{% if teams %}
+    <ul>
+        {% for team in teams %}
+            <li>
+                <strong>{{ team.name }}</strong>
+                {% if user == team.leader %}
+                    <a href="{% url 'team-task-create' team.pk %}" class="btn btn-sm btn-outline-primary ms-2">➕ Add Task</a>
+                {% endif %}
+
+                {% if team.tasks.all %}
+                    <ul class="mt-2">
+                        {% for task in team.tasks.all %}
+                            <li>
+                                <strong>{{ task.title }}</strong> — {{ task.description }}
+                                <br>
+                                <small>Due: {{ task.due_date|date:"M j, Y H:i" }}</small>
+
+                                {% if user == team.leader %}
+                                    <br><a href="{% url 'task-submissions' task.pk %}">📂 View submissions</a>
+                                {% elif user in team.members.all %}
+                                    {% if task.is_late %}
+                                        <div class="text-danger">❗ Late Submission</div>
+                                    {% endif %}
+                                    {% if not task.has_submitted %}
+                                        <a href="{% url 'submit-work' task.pk %}" class="btn btn-sm btn-outline-success mt-1">📤 Submit Work</a>
+                                    {% else %}
+                                        <span class="text-success">✅ Submitted</span>
+                                    {% endif %}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No tasks yet.</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You are not in any teams yet.</p>
+{% endif %}
+{% endblock %}

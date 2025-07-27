@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Task, Comment, Team
+from .models import Team, TeamTask, TeamSubmission
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
@@ -13,5 +14,15 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'leader')
     filter_horizontal = ('members',)
+
+@admin.register(TeamTask)
+class TeamTaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'team', 'due_date', 'status')
+    list_filter = ('team', 'status')
+
+@admin.register(TeamSubmission)
+class TeamSubmissionAdmin(admin.ModelAdmin):
+    list_display = ('task', 'user', 'submitted_at', 'is_late')
+    list_filter = ('task', 'user')

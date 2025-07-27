@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Submissions{% endblock %}
+{% block content %}
+<h2 class="mb-4">Submissions for: {{ task.title }}</h2>
+
+<ul class="list-group">
+    {% for submission in submissions %}
+        <li class="list-group-item">
+            <strong>{{ submission.user.username }}</strong> – {{ submission.submitted_at|date:"Y-m-d H:i" }}
+            {% if submission.is_late %}<span class="badge bg-danger">Late</span>{% endif %}<br>
+            {{ submission.content }}<br>
+            {% if submission.file %}
+                <a href="{{ submission.file.url }}" target="_blank">📎 Download File</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="list-group-item">No submissions yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

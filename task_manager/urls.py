@@ -26,6 +26,7 @@ from django.urls import path, include
 from common import views as common_views
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', common_views.home, name='home'),
@@ -35,7 +36,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('profile/', common_views.profile, name='profile'),
     path('tasks/', include('tasks.urls')),  # 👈 важно!
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 if settings.DEBUG:

@@ -7,4 +7,11 @@
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Save</button>
 </form>
+    <datalist id="folder-options">
+    {% for task in tasks %}
+        {% if task.folder %}
+            <option value="{{ task.folder }}">
+        {% endif %}
+    {% endfor %}
+</datalist>
 {% endblock %}
