@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
 <div class="hero-section">
-    <h1 class="hero-title">Welcome to TaskManager</h1>
-    <p class="hero-subtitle">
-        Organize everything like a pro. <br>
-        {% if user.is_authenticated %}
-            Hello, <strong>{{ user.username }}</strong>! Go to your
-            <a href="{% url 'dashboard' %}" class="btn btn-purple mt-3">Dashboard</a>
-        {% else %}
-            <a href="{% url 'login' %}" class="btn btn-purple mt-3">Log In</a> or
-            <a href="{% url 'register' %}" class="btn btn-outline-light mt-3">Register</a>
-        {% endif %}
-    </p>
+    <h1 class="hero-title">Welcome to <span class="text-highlight">TaskManager</span></h1>
+    <p class="hero-subtitle">Organize everything like a pro.</p>
+
+    {% if user.is_authenticated %}
+        <p class="mt-4">Hello, <strong>{{ user.username }}</strong>!</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-purple mt-3">Go to Dashboard</a>
+    {% else %}
+        <div class="d-flex gap-3 justify-content-center mt-4">
+            <a href="{% url 'login' %}" class="btn btn-purple">Log In</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-light">Register</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

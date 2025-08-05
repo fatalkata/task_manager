@@ -8,16 +8,19 @@
 
     <form method="post" enctype="multipart/form-data" class="profile-form">
         {% csrf_token %}
-        
+
         <div class="form-fields">
-            {{ form.username.label_tag }}
+            <!-- Username -->
+            <label for="{{ form.username.id_for_label }}">Username:</label>
             {{ form.username }}
 
-            {{ form.bio.label_tag }}
+            <!-- Bio -->
+            <label for="{{ form.bio.id_for_label }}">Bio:</label>
             {{ form.bio }}
 
-            {{ form.avatar.label_tag }}
-            {{ form.avatar }}
+            <!-- Avatar Upload -->
+            <label for="{{ form.avatar.id_for_label }}">Upload Avatar:</label>
+            <input type="file" name="avatar" id="{{ form.avatar.id_for_label }}">
         </div>
 
         <div class="profile-buttons">
