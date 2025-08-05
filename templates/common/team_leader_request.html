@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Заяви Team Leader{% endblock %}
+
+{% block content %}
+<div class="team-leader-request-box">
+    <h2>Заяви Team Leader роля</h2>
+    <p class="text-muted mb-4">Напиши защо искаш да бъдеш Team Leader и с кого ще работиш.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.message.label_tag }}
+            {{ form.message }}
+        </div>
+
+        <button type="submit" class="custom-btn">Изпрати заявка</button>
+    </form>
+</div>
+{% endblock %}

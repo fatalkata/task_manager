@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
 # Create your models here.
 
 
@@ -78,3 +80,11 @@ class TeamSubmission(models.Model):
 
     def __str__(self):
         return f"{self.user.username} -> {self.task.title}"
+
+    def validate_file_extension(value):
+        valid_extensions = ['.pdf', '.docx', '.jpg', '.png']
+        if not any(str(value).lower().endswith(ext) for ext in valid_extensions):
+            raise ValidationError('Unsupported file type. Allowed: PDF, DOCX, JPG, PNG')
+
+    # Промени този ред в TeamSubmission:
+    file = models.FileField(upload_to='submissions/', blank=True, null=True, validators=[validate_file_extension])

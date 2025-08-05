@@ -2,42 +2,42 @@
 {% block title %}Team Tasks{% endblock %}
 
 {% block content %}
-<h2>Your Teams</h2>
+<h2 class="mb-4">Your Teams</h2>
 
 {% if teams %}
-    <ul>
+    <ul class="list-group">
         {% for team in teams %}
-            <li>
-                <strong>{{ team.name }}</strong>
-                {% if user == team.leader %}
-                    <a href="{% url 'team-task-create' team.pk %}" class="btn btn-sm btn-outline-primary ms-2">➕ Add Task</a>
-                {% endif %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <strong>{{ team.name }}</strong>
+                    {% if user == team.leader %}
+                        <a href="{% url 'team-task-create' team.pk %}" class="btn btn-sm btn-outline-primary">➕ Add Task</a>
+                    {% endif %}
+                </div>
 
-                {% if team.tasks.all %}
-                    <ul class="mt-2">
+                {% if team.tasks.exists %}
+                    <ul class="mt-3">
                         {% for task in team.tasks.all %}
-                            <li>
-                                <strong>{{ task.title }}</strong> — {{ task.description }}
-                                <br>
-                                <small>Due: {{ task.due_date|date:"M j, Y H:i" }}</small>
+                            <li class="mb-3 border rounded p-3">
+                                <strong>{{ task.title }}</strong> — {{ task.description }}<br>
+                                <small class="text-muted">Due: {{ task.due_date|date:"M j, Y H:i" }}</small>
 
-                                {% if user == team.leader %}
-                                    <br><a href="{% url 'task-submissions' task.pk %}">📂 View submissions</a>
+                                {% if user == task.created_by %}
+                                    <div class="mt-2">
+                                        <a href="{% url 'team-task-edit' task.pk %}" class="btn btn-sm btn-outline-warning">✏️ Edit</a>
+                                        <a href="{% url 'team-task-delete' task.pk %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                                        <a href="{% url 'task-submissions' task.pk %}" class="btn btn-sm btn-outline-secondary">📂 View submissions</a>
+                                    </div>
                                 {% elif user in team.members.all %}
-                                    {% if task.is_late %}
-                                        <div class="text-danger">❗ Late Submission</div>
-                                    {% endif %}
-                                    {% if not task.has_submitted %}
-                                        <a href="{% url 'submit-work' task.pk %}" class="btn btn-sm btn-outline-success mt-1">📤 Submit Work</a>
-                                    {% else %}
-                                        <span class="text-success">✅ Submitted</span>
-                                    {% endif %}
+                                    <div class="mt-2">
+                                        <a href="{% url 'submit-work' task.pk %}" class="btn btn-sm btn-outline-success">📤 Submit Work</a>
+                                    </div>
                                 {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="text-muted">No tasks yet.</p>
+                    <p class="text-muted mt-2">No tasks yet for this team.</p>
                 {% endif %}
             </li>
         {% endfor %}

@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% load static %}
+
+{% block title %}Welcome{% endblock %}
+
 {% block content %}
-<div class="text-center">
-    <h1>Welcome to Task Manager</h1>
-    {% if user.is_authenticated %}
-        <p class="lead">Hello, {{ user.username }}! Go to your <a href="{% url 'dashboard' %}">dashboard</a>.</p>
-    {% else %}
-        <p class="lead">Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'register' %}">register</a> to continue.</p>
-    {% endif %}
+<div class="hero-section">
+    <h1 class="hero-title">Welcome to TaskManager</h1>
+    <p class="hero-subtitle">
+        Organize everything like a pro. <br>
+        {% if user.is_authenticated %}
+            Hello, <strong>{{ user.username }}</strong>! Go to your
+            <a href="{% url 'dashboard' %}" class="btn btn-purple mt-3">Dashboard</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-purple mt-3">Log In</a> or
+            <a href="{% url 'register' %}" class="btn btn-outline-light mt-3">Register</a>
+        {% endif %}
+    </p>
 </div>
 {% endblock %}
-
-

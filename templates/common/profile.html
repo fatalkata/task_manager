@@ -1,13 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Profile{% endblock %}
+
 {% block content %}
-<h2>Your Profile</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-success">Update</button>
-</form>
-{% if user.userprofile.avatar %}
-    <img src="{{ user.userprofile.avatar.url }}" alt="Avatar" width="150">
-{% endif %}
+<div class="profile-container">
+    <h2>Your Profile</h2>
+
+    <form method="post" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+        
+        <div class="form-fields">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+
+            {{ form.avatar.label_tag }}
+            {{ form.avatar }}
+        </div>
+
+        <div class="profile-buttons">
+            <button type="submit" class="custom-btn">Update</button>
+            {% if user.is_authenticated and not user.led_teams.exists %}
+                <a href="{% url 'team-leader-request' %}" class="custom-btn-outline">Стани Team Leader</a>
+            {% endif %}
+        </div>
+    </form>
+
+    {% if user.userprofile.avatar %}
+        <div class="profile-avatar">
+            <img src="{{ user.userprofile.avatar.url }}" alt="Avatar">
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

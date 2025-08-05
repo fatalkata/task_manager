@@ -7,14 +7,14 @@
 <a href="{% url 'task-create' %}" class="btn btn-success mb-3">+ Add New Task</a>
 
 <table class="table table-bordered">
-    <thead>
+    <thead class="table-light">
         <tr>
             <th>✔</th>
             <th>Title</th>
             <th>Status</th>
             <th>Priority</th>
             <th>Due Date</th>
-            <th>Folder</th>
+            <th>Tag</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -30,7 +30,7 @@
                 <td>{{ task.title }}</td>
                 <td>{{ task.get_status_display }}</td>
                 <td>{{ task.get_priority_display }}</td>
-                <td>{{ task.due_date }}</td>
+                <td>{{ task.due_date|date:"Y-m-d" }}</td>
                 <td>{{ task.tag|default:"-" }}</td>
                 <td>
                     <a href="{% url 'task-update' task.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
@@ -38,9 +38,8 @@
                 </td>
             </tr>
         {% empty %}
-            <tr><td colspan="7">No tasks available.</td></tr>
+            <tr><td colspan="7" class="text-center">No tasks available.</td></tr>
         {% endfor %}
     </tbody>
 </table>
 {% endblock %}
-
