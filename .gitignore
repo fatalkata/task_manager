@@ -17,7 +17,7 @@ venv/
 .vscode/
 
 # Static & Media
-/static/
+#/static/
 /media/
 
 # Migrations
